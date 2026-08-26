@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Minha conta{% endblock %}
+{% block content %}
+<section class="grid two-cols users-layout">
+    <div class="card settings-card">
+        <div class="card-header"><h2>Trocar minha senha</h2></div>
+        <form method="post" class="form-grid single">
+            <input type="hidden" name="action" value="change_password">
+            <label>
+                Senha atual
+                <input type="password" name="current_password" required>
+            </label>
+            <label>
+                Nova senha
+                <input type="password" name="new_password" minlength="4" required>
+            </label>
+            <label>
+                Confirmar nova senha
+                <input type="password" name="confirm_password" minlength="4" required>
+            </label>
+            <button class="btn primary" type="submit">Salvar nova senha</button>
+        </form>
+        <p class="muted">Use pelo menos 4 caracteres. A alteração vale no próximo login.</p>
+    </div>
+
+    <div class="card settings-card danger-zone">
+        <div class="card-header"><h2>Excluir minha conta</h2></div>
+        <form method="post" class="form-grid single" onsubmit="return confirm('Tem certeza que deseja excluir sua conta?');">
+            <input type="hidden" name="action" value="delete_account">
+            <label>
+                Confirme sua senha
+                <input type="password" name="delete_current_password" required>
+            </label>
+            <button class="btn danger" type="submit">Excluir minha conta</button>
+        </form>
+        <p class="muted">Essa ação remove seu acesso do sistema. O usuário admin padrão não pode excluir a própria conta.</p>
+    </div>
+</section>
+{% endblock %}

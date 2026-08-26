@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Histórico{% endblock %}
+{% block content %}
+<section class="card">
+    <div class="card-header"><h2>Histórico de comandos</h2></div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Data e hora</th>
+                    <th>Usuário</th>
+                    <th>Ação</th>
+                    <th>Detalhes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in history %}
+                <tr>
+                    <td>{{ item.data_criacao }}</td>
+                    <td>{{ item.nome_usuario }}</td>
+                    <td>{{ item.acao }}</td>
+                    <td>{{ item.detalhes }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">Nenhum registro encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}Painel{% endblock %}
+{% block content %}
+<section class="grid dashboard-layout">
+    <div class="card">
+        <div class="card-header">
+            <h2>Status do Portão</h2>
+        </div>
+        <div class="gate-visual-wrap">
+            <div id="gateContainer" class="gate-container">
+                <div class="gate-sky"></div>
+                <div class="gate-post left"></div>
+                <div class="gate-post right"></div>
+                <div class="gate-lintel"></div>
+                <div class="gate-track left"></div>
+                <div class="gate-track right"></div>
+                <div class="gate-opening"></div>
+                <div id="gateDoor" class="gate-door closed">
+                    <span class="slat"></span>
+                    <span class="slat"></span>
+                    <span class="slat"></span>
+                    <span class="slat"></span>
+                    <span class="slat"></span>
+                    <span class="slat"></span>
+                </div>
+                <div class="gate-ground"></div>
+            </div>
+        </div>
+        <div class="status-panel responsive-two">
+            <div><span>Status</span><strong id="statusTexto">{{ gate_state.status }}</strong></div>
+            <div><span>Último comando</span><strong id="ultimoComando">{{ gate_state.ultimo_comando }}</strong></div>
+            <div><span>Atualizado em</span><strong id="ultimaAtualizacao">{{ gate_state.ultima_atualizacao }}</strong></div>
+            <div><span>IP configurado</span><strong id="ipEsp32">{{ settings.ip_esp32 }}</strong></div>
+        </div>
+        <div class="button-row responsive-buttons">
+            <button class="btn success" onclick="enviarComando('abrir')">Abrir</button>
+            <button class="btn danger" onclick="enviarComando('fechar')">Fechar</button>
+            <button class="btn warning" onclick="enviarComando('parar')">Parar</button>
+        </div>
+        <div id="comandoMensagem" class="inline-message">Sistema pronto.</div>
+    </div>
+
+    <div class="stack">
+        <div class="card alert-card">
+            <div class="card-header">
+                <h2>Alerta de Segurança</h2>
+            </div>
+            <p id="securityAlert">{{ settings.alerta_seguranca }}</p>
+        </div>
+
+        <div class="card stats-card responsive-two">
+            <div class="mini-stat">
+                <span>Usuários ativos</span>
+                <strong>{{ users_count }}</strong>
+            </div>
+            <div class="mini-stat">
+                <span>Seu perfil</span>
+                <strong>{{ 'Administrador' if session_user.role == 'admin' else 'Usuário' }}</strong>
+            </div>
+        </div>
+
+        <div class="card history-preview-card">
+            <div class="card-header">
+                <h2>Últimos comandos</h2>
+                <a href="{{ url_for('history_page') }}">Ver tudo</a>
+            </div>
+            <div class="history-list preview-scroll">
+                {% for item in history %}
+                <div class="history-item">
+                    <div>
+                        <strong>{{ item.acao }}</strong>
+                        <p>{{ item.detalhes }}</p>
+                    </div>
+                    <small>{{ item.data_criacao }}</small>
+                </div>
+                {% else %}
+                <p>Nenhum comando registrado.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

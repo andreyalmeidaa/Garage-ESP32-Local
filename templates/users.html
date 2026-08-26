@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block title %}Usuários{% endblock %}
+{% block content %}
+<section class="grid two-cols users-layout">
+    <div class="card">
+        <div class="card-header"><h2>Novo usuário</h2></div>
+        <form method="post" action="{{ url_for('create_user') }}" class="form-grid">
+            <label>
+                Nome completo
+                <input type="text" name="full_name" required>
+            </label>
+            <label>
+                Usuário
+                <input type="text" name="username" required>
+            </label>
+            <label>
+                Senha
+                <input type="password" name="password" required>
+            </label>
+            <label>
+                Perfil
+                <select name="role">
+                    <option value="user">Usuário comum</option>
+                    <option value="admin">Administrador</option>
+                </select>
+            </label>
+            <button class="btn primary full" type="submit">Cadastrar usuário</button>
+        </form>
+    </div>
+
+    <div class="card users-card">
+        <div class="card-header"><h2>Usuários cadastrados</h2></div>
+
+        <div class="table-wrap users-table-desktop">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuário</th>
+                        <th>Nome</th>
+                        <th>Perfil</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.nome_usuario }}</td>
+                        <td>{{ user.nome_completo }}</td>
+                        <td>{{ 'Administrador' if user.perfil == 'admin' else 'Usuário' }}</td>
+                        <td>
+                            <span class="status-badge {{ 'active' if user.ativo else 'inactive' }}">
+                                {{ 'Ativo' if user.ativo else 'Inativo' }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-stack">
+                                {% if user.nome_usuario != 'admin' %}
+                                <form method="post" action="{{ url_for('toggle_user', user_id=user.id) }}">
+                                    <button class="btn small {{ 'warning' if user.ativo else 'success' }}" type="submit">
+                                        {{ 'Desativar' if user.ativo else 'Ativar' }}
+                                    </button>
+                                </form>
+                                <form method="post" action="{{ url_for('delete_user', user_id=user.id) }}" onsubmit="return confirm('Excluir este usuário?');">
+                                    <button class="btn small danger" type="submit">Excluir</button>
+                                </form>
+                                {% else %}
+                                <span class="muted">Protegido</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="users-mobile-list">
+            {% for user in users %}
+            <article class="user-card-item">
+                <div class="user-card-top">
+                    <div>
+                        <strong>{{ user.nome_completo }}</strong>
+                        <p>@{{ user.nome_usuario }}</p>
+                    </div>
+                    <span class="status-badge {{ 'active' if user.ativo else 'inactive' }}">
+                        {{ 'Ativo' if user.ativo else 'Inativo' }}
+                    </span>
+                </div>
+
+                <div class="user-card-meta">
+                    <div><span>ID</span><strong>{{ user.id }}</strong></div>
+                    <div><span>Perfil</span><strong>{{ 'Administrador' if user.perfil == 'admin' else 'Usuário' }}</strong></div>
+                </div>
+
+                <div class="user-card-actions">
+                    {% if user.nome_usuario != 'admin' %}
+                    <form method="post" action="{{ url_for('toggle_user', user_id=user.id) }}">
+                        <button class="btn small {{ 'warning' if user.ativo else 'success' }} full-mobile" type="submit">
+                            {{ 'Desativar' if user.ativo else 'Ativar' }}
+                        </button>
+                    </form>
+                    <form method="post" action="{{ url_for('delete_user', user_id=user.id) }}" onsubmit="return confirm('Excluir este usuário?');">
+                        <button class="btn small danger full-mobile" type="submit">Excluir</button>
+                    </form>
+                    {% else %}
+                    <span class="muted">Usuário protegido</span>
+                    {% endif %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

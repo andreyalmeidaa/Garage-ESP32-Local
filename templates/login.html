@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<section class="login-card">
+    <h2>Acesso ao Sistema</h2>
+    <p>Entre com seu usuário e senha para controlar o portão.</p>
+    <form method="post" class="form-grid single">
+        <label>
+            Usuário
+            <input type="text" name="username" placeholder="Digite seu usuário" required>
+        </label>
+        <label>
+            Senha
+            <input type="password" name="password" placeholder="Digite sua senha" required>
+        </label>
+        <button type="submit" class="btn primary">Entrar</button>
+    </form>
+    <div class="demo-box">
+        <strong>Login inicial:</strong><br>
+        usuário: <code>admin</code><br>
+        senha: <code>1234</code>
+    </div>
+</section>
+{% endblock %}

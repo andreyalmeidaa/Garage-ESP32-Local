@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Configurações{% endblock %}
+{% block content %}
+<section class="card settings-card">
+    <div class="card-header"><h2>Configurações do sistema</h2></div>
+    <form method="post" class="form-grid single">
+        <label>
+            IP do ESP32
+            <input type="text" name="esp32_ip" value="{{ settings.ip_esp32 }}" required>
+        </label>
+        <label>
+            Alerta de segurança
+            <textarea name="security_alert" rows="4" required>{{ settings.alerta_seguranca }}</textarea>
+        </label>
+        <button class="btn primary" type="submit">Salvar alterações</button>
+    </form>
+    <p class="muted">Última atualização: {{ settings.data_atualizacao }} por {{ settings.atualizado_por }}</p>
+</section>
+{% endblock %}
