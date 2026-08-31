@@ -40,7 +40,7 @@ Projeto acadêmico de uma garagem automatizada controlada por uma aplicação we
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/SEU-USUARIO/garage-esp32-local.git
+git clone https://github.com/andreyalmeidaa/garage-esp32-local.git
 cd garage-esp32-local
 ```
 
